@@ -20,22 +20,23 @@ There is also a Typescript client provided. See [client/README.md](client/README
 
 ## What you need to do
 Mean Finance has a few different products, most about swapping between different cryptocurrencies (or tokens). Mean Finance is also available on multiple blockchains (or chains), and users might behave differently on each of them. 
-Our users can use our [Swap](https://mean.finance/swap) product to swap between two tokens. We track these swaps using [The Graph](https://thegraph.com/), and we want to be able to make some queries to a server, to suggest improve our Swap product's UX.
+Our users can use our [Swap](https://mean.finance/swap) product to swap between two tokens. We track these swaps using [The Graph](https://thegraph.com/), and we want to be able to make some queries to a server, to improve our Swap product's UX.
 
 ### Server
-There is already mocked The Graph client on the server that returns all swaps executed during the previous day (up until 00 UTC). For example, during the previous day, there might have been swaps between:
+There is already a mocked The Graph client on the server that returns all swaps executed during the previous day (up until 00 UTC). For example, during the previous day, there might have been swaps between the following tokens:
 - `ETH` and `MATIC`
 - `MATIC` and `USDC`
 - `USDT` and `BNB`
 
-You will need to add a new endpoint so that we can ask our server if there have been swaps that would establish a connection between two tokens. For example, by looking into the examples before, we could say that there was a swap connection between `ETH` and `MATIC`, but also between `ETH` and `USDC` (the connection would be `ETH => MATIC => USDC`). It's not relevant which token was sold and which one was bought, only if they were swaps between them. Also, we can see that while there was a swap connection between `ETH` and `USDC`, there was no connection between `ETH` and `BNB`. 
+You will need to add a new endpoint so that we can ask our server if there have been swaps that would establish a connection between two tokens. For example, by looking into the examples before, we could say that there was a direct swap connection between `ETH` and `MATIC`, between `MATIC` and `USDC`, and between `USDT` and `BNB`. But, we can also say there are some indirect connections. Since we have `ETH <=> MATIC` and `MATIC <=> USDC`, we can also say there is a `ETH <=> USDC` connection, given by `ETH <=> MATIC <=> USDC`. 
+
+Please note that it's not relevant which token was sold and which one was bought, only if they were swaps between them. Also, we can see that while there was a swap connection between `ETH` and `USDC`, there was no connection between `ETH` and `BNB`. 
 
 We want this endpoint to return whether two tokens have a swap connection based on the swaps of the previous day. Also, we want to be able to ask for different pairs of tokens in different chains, all in the same request. For example, we would like to ask if there is a connection between `ETH` and `MATIC` on chain `1`, or if there is a connection between `USDC` and `BNB` on chain `10`.
 
 Finally, it's important to note something important about the The Graph client: 
 - It will automatically return the swaps for the previous day after 00 UTC
 - These value will not change up until the next day (again, at 00 UTC)
-- The service is not reliable and it fails often
 
 ### Client
 Once the new endpoint is built, we want to add a way to interact with it to our existing client. As before, it would need to handle querying for different pairs of tokens in different chains.

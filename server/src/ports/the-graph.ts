@@ -19,11 +19,9 @@ export async function createTheGraphClient(): Promise<ITheGraphClient> {
   return new TheGraphClient()
 }
 
-// CONFIG
-const FAILURE_RATE_PERCENT = 10
 
 // This graph client mock will generate random responses and return them. Each day will have it's own response 
-// generated. The client will fail every now and then, according to the configured failure rate
+// generated
 class TheGraphClient implements ITheGraphClient {
 
   private lastResponse: Map<ChainId, DailySwaps> = new Map()
@@ -33,8 +31,6 @@ class TheGraphClient implements ITheGraphClient {
   }
 
   async getDailySwaps(chainId: ChainId)  {
-    if (Math.random() < FAILURE_RATE_PERCENT / 100)
-      throw new Error('Failed to fetch daily average prices')
     const lastUpdated = new Date(this.lastResponse.get(chainId)?.lastUpdated ?? 0)
     if (getDayString(lastUpdated) !== getDayString(new Date())) {
       this.lastResponse.set(chainId, { swaps: generateNewResponse(), lastUpdated: Date.now() })
