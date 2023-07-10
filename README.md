@@ -1,4 +1,4 @@
-# BE Challange
+# BE Challenge
 
 ## Before starting
 This challenge aims to tackle problems very similar to what Mean's team does on a day to day basis. There are some terms related to cryptocurrencies, but no prior knowledge is needed to attempt the challenge. If you'd like to attempt this challege, please:
