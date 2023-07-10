@@ -105,3 +105,6 @@ typings/
 
 # Build and test
 **/.DS_Store
+
+# Nix stuff
+.direnv
