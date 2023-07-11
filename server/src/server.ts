@@ -5,6 +5,8 @@ import { configureRoutes } from "./controllers/routes";
 export async function main() {
   const expressApp = express();
 
+  expressApp.use(express.json());
+
   const components = await initComponents();
 
   await configureRoutes(expressApp, components);
