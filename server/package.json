@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "start": "$npm_execpath run build && node dist/index.js",
+    "start": "nodemon src/index.ts",
     "test": "jest --forceExit --detectOpenHandles --coverage --verbose"
   },
   "devDependencies": {
@@ -13,6 +13,7 @@
     "@types/jest": "26.0.23",
     "@types/node": "14.17.0",
     "jest": "27.0.6",
+    "nodemon": "^3.0.1",
     "ts-jest": "27.0.3",
     "ts-node": "10.0.0",
     "typescript": "4.2.4"
