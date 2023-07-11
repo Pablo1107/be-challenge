@@ -1,12 +1,11 @@
 import { AppComponents } from '../../app/types';
 import { Request, Response } from "express";
 import { isChainValid } from '../../logic/chains';
-import { Graph } from '../../logic/graph';
+import { hasConnectionInSwaps } from '../../logic/graph';
 
 export async function tokenConnectionHandler(components: AppComponents, req: Request, res: Response) {
   const { theGraph, logger } = components
 
-  console.log({ req,  body: req.body })
   if (!req.body) {
     res.status(400).send({ error: 'Invalid request body' })
     return
@@ -25,12 +24,7 @@ export async function tokenConnectionHandler(components: AppComponents, req: Req
   try {
     const { swaps } = await theGraph.getDailySwaps(chainId)
 
-    const graph = new Graph()
-    for (const swap of swaps) {
-      graph.addEdge(swap.sellToken, swap.buyToken)
-    }
-
-    res.send({ hasConnection: graph.hasPathDFS(token1, token2), swaps })
+    res.send({ hasConnection: hasConnectionInSwaps(swaps, token1, token2) })
   } catch (e) {
     logger.error(e)
     res.status(500).send({ error: 'Something went wrong' })

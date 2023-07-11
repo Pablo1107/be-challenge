@@ -1,3 +1,6 @@
+import _ from "lodash";
+import { DailySwaps } from "../ports/the-graph";
+
 export class Graph {
   private adjacencyList: Map<string, Set<string>>;
 
@@ -43,3 +46,11 @@ export class Graph {
     return dfs(start);
   }
 }
+
+export const hasConnectionInSwaps = _.memoize((swaps: DailySwaps["swaps"], token1: string, token2: string) => {
+  const graph = new Graph()
+  for (const swap of swaps) {
+    graph.addEdge(swap.sellToken, swap.buyToken)
+  }
+  return graph.hasPathDFS(token1, token2)
+})
