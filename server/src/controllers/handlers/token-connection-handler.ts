@@ -10,7 +10,8 @@ export async function tokenConnectionHandler(components: AppComponents, req: Req
     res.status(400).send({ error: 'Invalid request body' })
     return
   }
-  const { chainId, token1, token2 } = req.body
+  const { chainId } = req.params
+  const { token1, token2 } = req.body
 
   if (!chainId || !token1 || !token2) {
     res.status(400).send({ error: 'Some of the following keys are missing: "chainId", "token1", "token2"' })

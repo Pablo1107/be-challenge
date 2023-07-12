@@ -10,5 +10,5 @@ export async function configureRoutes(
 ) {
   expressApp.get("/status", (req, res) => statusHandler(components, req, res));
   expressApp.get("/chains/:chainId/tokens", (req, res) => tokensHandler(components, req, res));
-  expressApp.post("/token-connection", (req, res) => tokenConnectionHandler(components, req, res));
+  expressApp.post("/chains/:chainId/token-connection", (req, res) => tokenConnectionHandler(components, req, res));
 }
