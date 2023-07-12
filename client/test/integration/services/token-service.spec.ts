@@ -15,4 +15,17 @@ describe("Token Service", () => {
     expect(allTokens.includes('BNB')).toBeTruthy()
   })
 
+  it('tokens cannot be fetched correctly', async () => {
+    await expect(service.getAllTokens(9999999999999)).rejects.toThrow()
+  })
+
+  it('get if two tokens have connection', async () => {
+    const hasConnection = await service.hasConnection(1, 'ETH', 'BNB')
+    expect(typeof hasConnection).toBe('boolean')
+  })
+
+  it('token connection throws error if invalid chain', async () => {
+    await expect(service.hasConnection(9999999999999, 'ETH', 'BNB')).rejects.toThrow()
+  })
+
 });

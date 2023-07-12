@@ -12,4 +12,14 @@ export class TokenService implements ITokenService {
     return body.tokens
   }
 
+  async hasConnection(chainId: ChainId, token1: TokenId, token2: TokenId): Promise<boolean> {
+    const response = await this.fetch(this.serverUrl + `/chains/${chainId}/token-connection`, {
+      method: 'POST',
+      body: JSON.stringify({ token1, token2 }),
+      headers: { 'Content-Type': 'application/json' }
+    })
+    if (!response.ok) throw new Error(`Failed to make request. Error code was: ${response.status}`)
+    const body = await response.json()
+    return body.hasConnection
+  }
 }
