@@ -15,6 +15,7 @@ export async function tokenConnectionHandler(components: AppComponents, req: Req
 
   if (!chainId || !token1 || !token2) {
     res.status(400).send({ error: 'Some of the following keys are missing: "chainId", "token1", "token2"' })
+    return
   }
 
   if (!isChainValid(chainId)) {
